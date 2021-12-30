@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="./css/styles.css">
+<html>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<script src="./js/viewer.js"></script>
+	<link rel="stylesheet" href="./css/font-awesome.min.css">
+<body>
+	<div ng-app="myApp" ng-controller="myCtrl">
+		<div class="filters">
+            <div class="filter-row">
+				<div class="filter">
+					<button ng-click="clear()">
+						Clear Format
+					</button>
+				</div>
+				<div class="filter">
+                    <label for="json">Load Format From JSON File</label>
+                    <br>
+                    <input id="json" type="file" onchange="angular.element(this).scope().uploadFormatJSON(this)">
+                </div>
+                <div class="filter">
+                    <label for="edit">Edit Format</label>
+					<br>
+					<input type="checkbox" id="edit" ng-model="isEditing">
+                </div>
+				<div class="filter" ng-show="isEditing">
+                    <label for="filename">Format Filename</label>
+                    <br>
+					<input id="filename" ng-model="filename">
+				</div>
+				<div class="filter" ng-show="isEditing">
+					<button ng-click="downloadFormatJSON()">
+						Download Format as JSON File
+					</button>
+				</div>
+			</div>
+			<div class="filter-row" ng-show="isEditing">
+				<div class="filter">
+                    <label for="addname">Add A Card</label>
+                    <br>
+					<input id="addname" list="autolist" ng-model="autoQuery" ng-change="getCardsAutocomplete()">
+					<datalist id="autolist">
+						<option ng-repeat="result in autoResults" value="{{result}}">
+		   			</datalist>
+				</div>
+				<div class="filter">
+					<button ng-click="addCard()" ng-disabled="autoQuery.length < 3">
+						Add Card
+					</button>
+				</div>
+			</div>
+			<div class="filter-row" ng-show="isEditing">
+				<div class="filter">
+                    <label for="randomquery">Scryfall Query For Random Cards</label>
+                    <br>
+					<input id="randomquery" ng-model="randomQuery">
+				</div>
+				<div class="filter">
+					<label for="numrandom"># Random Cards To Add</label>
+					<br>
+					<input type="number" id="numrandom" ng-model="numRandom">
+				</div>
+				<div class="filter">
+					<button ng-click="addRandomCard(numRandom, 0)">
+						Add Random Cards
+					</button>
+				</div>
+            </div>
+			<div class="filter-row">
+				<div class="filter">
+					<label for="limit">Cards Per Page</label>
+					<br>
+					<input type="number" id="limit" ng-model="itemLimit" ng-change="resetPage()">
+				</div>
+				<div class="filter">
+					<label for="cardname">Search Name</label>
+					<br>
+					<input id="cardname" ng-model="search.name" ng-change="resetPage()">
+				</div>
+				<div class="filter">
+					<label for="type">Search Type</label>
+					<br>
+					<input id="type" ng-model="search.type_line" ng-change="resetPage()">
+				</div>
+				<div class="filter">
+					<label for="cmc">Search CMC</label>
+					<br>
+					<input type="number" id="cmc" ng-model="search.cmc" ng-change="resetPage()">
+				</div>
+				<div class="filter">
+					<label for="artist">Search Artist</label>
+					<br>
+					<input id="artist" ng-model="search.artist" ng-change="resetPage()">
+				</div>
+				<div class="filter">
+					<label for="color">Colors</label>
+					<br>
+					<select ng-model="search.colors" ng-change="resetPage()">
+						<option ng-repeat="x in colors" value="{{x.value}}">{{x.display}}</option>
+					</select>
+				</div>
+			</div>
+			<div class="filter-row">
+				<div class="filter">
+					<label for="rules">Search Rules</label>
+					<br>
+					<input id="rules" class="input-long" ng-model="search.oracle_text" ng-change="resetPage()">
+				</div>
+				<div class="filter">
+					<label for="color">Sort</label>
+					<br>
+					<select ng-model="sortProp">
+						<option ng-repeat="x in sortOptions" value="{{x.value}}">{{x.display}}</option>
+					</select>
+				</div>
+				<div class="filter">
+					<button ng-click="reset()">
+						Reset Filters
+					</button>
+				</div>
+				<div class="filter">
+					<button ng-click="page = page - 1" ng-disabled="page <= 0">
+						Previous {{itemLimit}} Cards
+					</button>
+				</div>
+				<div class="filter">
+					<button ng-click="page = page + 1" ng-disabled="page * itemLimit >= filtered.length - itemLimit">
+						Next {{itemLimit}} Cards
+					</button>
+				</div>
+				<div class="filter">
+					{{filtered.length}} Results
+				</div>
+			</div>
+		</div>
+		<div class="page-wrapper">
+			<div class="card-wrapper">
+				<div ng-repeat="card in filtered = (cards | filter:search:strict) | orderBy:[sortProp,'colors','cmc','name'] | limitTo:itemLimit:page*itemLimit as filtered track by card.name" class="card-container">
+					<div title="{{card.name}}" class="card-title" ng-click="openScry(card.scryfall_uri)" title="Go to Scryfall">
+						{{card.name}}
+					</div>
+					<img ng-init="cardImage = card.image_uri" ng-mouseover="cardImage = card.image_uri_hover" ng-mouseout="cardImage = card.image_uri" ng-src="{{cardImage}}" class="card-image" ng-click="addToDeck(card)" title="Add to Deck">
+					<div class="delete-btn" ng-click="deleteCard(card)" title="Delete" ng-show="isEditing"><i class="fa fa-trash-o fa-lg"></i></div>
+				</div>
+			</div>
+			<div class="deck-wrapper">
+				<div ng-repeat="card in deck track by $index" class="deck-card-container">
+					<img ng-src="{{card.image_uri}}" class="deck-card-image" ng-click="deleteFromDeck($index)">
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
+<script>
+
+</script>
+</html>

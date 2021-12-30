@@ -1,0 +1,83 @@
+.page-wrapper {
+	display: flex;
+}
+.card-wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	margin-right: 200px;
+	margin-bottom: 400px;
+}
+.card-container {
+	width: 200px;
+	margin: 5px;
+	position: relative;
+}
+.delete-btn {
+	background: lightcoral;
+    padding: 10px 11px;
+    border: 1px solid black;
+    border-top-right-radius: 9px;
+    border-bottom-left-radius: 9px;
+    position: absolute;
+    top: 24px;
+	right: 0;
+	display: none;
+	cursor: default;
+}
+.delete-btn:hover {
+	background: coral;
+}
+.card-container:hover .delete-btn {
+	display: inline;
+}
+.card-title {
+	text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+	text-align: center;
+	cursor: pointer;
+	margin: 3px;
+}
+.card-image {
+	width: 200px;
+	height: 280px;
+    border-radius: 9px;
+	background-image: repeating-linear-gradient(-55deg, #DDD, #DDD 5px, #CCC 5px, #CCC 10px);
+}
+.card-image-zoom {
+	width: 400px;
+	position: absolute;
+	z-index: 50;
+}
+.filters {
+	position: sticky;
+	top: 0;
+	padding: 10px;
+	background: white;
+	z-index: 100;
+}
+.filter-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+}
+.filter {
+	padding: 10px;
+}
+.input-long {
+	width: 500px;
+}
+.deck-wrapper {
+	flex-basis: 300px;
+}
+.deck-card-container {
+	width: 300px;
+	height: 40px;
+}
+.deck-card-image {
+	width: 300px;
+	position: absolute;
+}
+.deck-card-image:hover {
+	z-index: 50;
+}
