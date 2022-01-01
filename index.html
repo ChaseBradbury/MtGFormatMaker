@@ -52,18 +52,23 @@
 			</div>
 			<div class="filter-row" ng-show="isEditing">
 				<div class="filter">
-                    <label for="randomquery">Scryfall Query For Random Cards</label>
+                    <label for="scryquery">Scryfall Query For List of Cards</label>
                     <br>
-					<input id="randomquery" ng-model="randomQuery">
+					<input id="scryquery" ng-model="scryQuery.query">
 				</div>
 				<div class="filter">
-					<label for="numrandom"># Random Cards To Add</label>
+                    <label for="random">Add Random Cards from Query</label>
 					<br>
-					<input type="number" id="numrandom" ng-model="numRandom">
+					<input type="checkbox" id="random" ng-model="scryQuery.isRandom">
+                </div>
+				<div class="filter">
+					<label for="scrynum">{{scryQuery.isRandom ? '# of Random Cards To Add' : 'Page # of Query'}}</label>
+					<br>
+					<input type="number" id="scrynum" ng-model="scryQuery.numCards">
 				</div>
 				<div class="filter">
-					<button ng-click="addRandomCard(numRandom, 0)">
-						Add Random Cards
+					<button ng-click="addQueryCards()">
+						Add Cards
 					</button>
 				</div>
             </div>
@@ -76,22 +81,22 @@
 				<div class="filter">
 					<label for="cardname">Search Name</label>
 					<br>
-					<input id="cardname" ng-model="search.name" ng-change="resetPage()">
+					<input id="cardname" ng-model="search.name" ng-change="resetPage()" ng-model-options="{ debounce: debounceTime }">
 				</div>
 				<div class="filter">
 					<label for="type">Search Type</label>
 					<br>
-					<input id="type" ng-model="search.type_line" ng-change="resetPage()">
+					<input id="type" ng-model="search.type_line" ng-change="resetPage()" ng-model-options="{ debounce: debounceTime }">
 				</div>
 				<div class="filter">
 					<label for="cmc">Search CMC</label>
 					<br>
-					<input type="number" id="cmc" ng-model="search.cmc" ng-change="resetPage()">
+					<input type="number" id="cmc" ng-model="search.cmc" ng-change="resetPage()" ng-model-options="{ debounce: debounceTime }">
 				</div>
 				<div class="filter">
 					<label for="artist">Search Artist</label>
 					<br>
-					<input id="artist" ng-model="search.artist" ng-change="resetPage()">
+					<input id="artist" ng-model="search.artist" ng-change="resetPage()" ng-model-options="{ debounce: debounceTime }">
 				</div>
 				<div class="filter">
 					<label for="color">Colors</label>
@@ -105,7 +110,7 @@
 				<div class="filter">
 					<label for="rules">Search Rules</label>
 					<br>
-					<input id="rules" class="input-long" ng-model="search.oracle_text" ng-change="resetPage()">
+					<input id="rules" class="input-long" ng-model="search.oracle_text" ng-change="resetPage()" ng-model-options="{ debounce: debounceTime }">
 				</div>
 				<div class="filter">
 					<label for="color">Sort</label>

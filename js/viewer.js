@@ -2,7 +2,7 @@ var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope, $window, $http, $timeout) {
 	$scope.page = 0;
 	$scope.search = {};
-	$scope.itemLimit = 100;
+	$scope.itemLimit = 25;
 	$scope.includeMid = false;
 	$scope.includeExpensive = false;
 	$scope.colors = [
@@ -48,9 +48,13 @@ app.controller('myCtrl', function($scope, $window, $http, $timeout) {
     $scope.filename = 'My Format';
     $scope.autoQuery = '';
     $scope.autoResults = [];
-    $scope.randomQuery = 'f:vintage usd<2';
-    $scope.numRandom = 1;
+    $scope.scryQuery = {
+        query: 'f:vintage usd<2',
+        numCards: 1,
+        isRandom: true
+    }
     $scope.sortProp = 'colors';
+    $scope.debounceTime = 350;
 
 
     
@@ -127,18 +131,43 @@ app.controller('myCtrl', function($scope, $window, $http, $timeout) {
             method: 'GET',
             url: 'https://api.scryfall.com/cards/named?exact=' + $scope.autoQuery
             }).then(function successCallback(response) {
-                $scope.cards.push($scope.convertCard(response.data));
+                if ($scope.findCardIndex(response.data) === -1) {
+                    $scope.cards.push($scope.convertCard(response.data));
+                }
             }, function errorCallback(response) {
                 $scope.errors.push(response);
         });
         $scope.autoQuery = '';
     }
 
+    $scope.addQueryCards = function() {
+        if ($scope.scryQuery.isRandom) {
+            $scope.addRandomCard($scope.scryQuery.numCards, 0);
+        } else {
+            $scope.addQueryPage();
+        }
+    }
+
+    $scope.addQueryPage = function() {
+        $http({
+            method: 'GET',
+            url: 'https://api.scryfall.com/cards/search?q=' + $scope.scryQuery.query + '&page=' + $scope.scryQuery.numCards
+            }).then(function successCallback(response) {
+                response.data.data.forEach(card => {
+                    if ($scope.findCardIndex(card) === -1) {
+                        $scope.cards.push($scope.convertCard(card));
+                    }
+                });
+            }, function errorCallback(response) {
+                $scope.errors.push(response);
+        });
+    }
+
 	$scope.addRandomCard = function(depth, tries) {
         if (depth > 0 && tries < 10) {
             $http({
                 method: 'GET',
-                url: 'https://api.scryfall.com/cards/random?q=' + $scope.randomQuery
+                url: 'https://api.scryfall.com/cards/random?q=' +  $scope.scryQuery.query
                 }).then(function successCallback(response) {
                     if ($scope.findCardIndex(response.data) === -1) {
                         $scope.cards.push($scope.convertCard(response.data));
