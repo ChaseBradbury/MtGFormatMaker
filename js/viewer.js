@@ -1,48 +1,48 @@
 var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope, $window, $http, $timeout) {
-	$scope.page = 0;
-	$scope.search = {};
-	$scope.itemLimit = 25;
-	$scope.includeMid = false;
-	$scope.includeExpensive = false;
-	$scope.colors = [
-		{ value: '', display: 'All' },
-		{ value: '00-C', display: 'Colorless' },
-		{ value: '01-W', display: 'White' },
-		{ value: '02-U', display: 'Blue' },
-		{ value: '03-B', display: 'Black' },
-		{ value: '04-R', display: 'Red' },
-		{ value: '05-G', display: 'Green' },
-		{ value: '06-WU', display: 'Azorius (WU)' },
-		{ value: '07-UB', display: 'Dimir (UB)' },
-		{ value: '08-BR', display: 'Rakdos (BR)' },
-		{ value: '09-RG', display: 'Gruul (RG)' },
-		{ value: '10-GW', display: 'Selesnya (GW)' },
-		{ value: '11-WB', display: 'Orzhov (WB)' },
-		{ value: '12-UR', display: 'Izzet (UR)' },
-		{ value: '13-BG', display: 'Golgari (BG)' },
-		{ value: '14-RW', display: 'Boros (RW)' },
-		{ value: '15-GU', display: 'Simic (GU)' },
-		{ value: '16-M', display: '3+ Colors' }
-	];
-	$scope.rarities = [
-		{ value: null, display: 'All' },
-		{ value: 'C', display: 'Common' },
-		{ value: 'U', display: 'Uncommon' },
-		{ value: 'R', display: 'Rare' },
+    $scope.page = 0;
+    $scope.search = {};
+    $scope.itemLimit = 24;
+    $scope.includeMid = false;
+    $scope.includeExpensive = false;
+    $scope.colors = [
+        { value: '', display: 'All' },
+        { value: '00-C', display: 'Colorless' },
+        { value: '01-W', display: 'White' },
+        { value: '02-U', display: 'Blue' },
+        { value: '03-B', display: 'Black' },
+        { value: '04-R', display: 'Red' },
+        { value: '05-G', display: 'Green' },
+        { value: '06-WU', display: 'Azorius (WU)' },
+        { value: '07-UB', display: 'Dimir (UB)' },
+        { value: '08-BR', display: 'Rakdos (BR)' },
+        { value: '09-RG', display: 'Gruul (RG)' },
+        { value: '10-GW', display: 'Selesnya (GW)' },
+        { value: '11-WB', display: 'Orzhov (WB)' },
+        { value: '12-UR', display: 'Izzet (UR)' },
+        { value: '13-BG', display: 'Golgari (BG)' },
+        { value: '14-RW', display: 'Boros (RW)' },
+        { value: '15-GU', display: 'Simic (GU)' },
+        { value: '16-M', display: '3+ Colors' }
+    ];
+    $scope.rarities = [
+        { value: null, display: 'All' },
+        { value: 'C', display: 'Common' },
+        { value: 'U', display: 'Uncommon' },
+        { value: 'R', display: 'Rare' },
     ];
     
-	$scope.sortOptions = [
-		{ value: 'colors', display: 'Colors' },
-		{ value: 'cmc', display: 'CMC' },
-		{ value: 'name', display: 'Name' },
-		{ value: null, display: 'File Order' }
+    $scope.sortOptions = [
+        { value: 'colors', display: 'Colors' },
+        { value: 'cmc', display: 'CMC' },
+        { value: 'name', display: 'Name' },
+        { value: null, display: 'File Order' }
     ];
     
-	$scope.cards = [];
-	$scope.deck = [];
+    $scope.cards = [];
+    $scope.deck = [];
 
-	$scope.errors = [];
+    $scope.errors = [];
     $scope.convertnum = 0;
 
     $scope.filename = 'My Format';
@@ -55,6 +55,12 @@ app.controller('myCtrl', function($scope, $window, $http, $timeout) {
     }
     $scope.sortProp = 'colors';
     $scope.debounceTime = 350;
+
+    $scope.uploadTabId = 'upload';
+    $scope.addTabId = 'add';
+    $scope.scryTabId = 'scry';
+    $scope.saveTabId = 'save';
+    $scope.slideoutTab = $scope.uploadTabId;
 
 
     
@@ -88,29 +94,29 @@ app.controller('myCtrl', function($scope, $window, $http, $timeout) {
         link.click();
     };
 
-	$scope.convert = function() {
-		for (var i = $scope.convertnum; i < Math.min(cardsExpensive.length, $scope.convertnum + 200); ++i) {
-			$scope.getRules(cardsExpensive[i]);
-		}
-		$scope.convertnum = $scope.convertnum + 200;
-	}
+    $scope.convert = function() {
+        for (var i = $scope.convertnum; i < Math.min(cardsExpensive.length, $scope.convertnum + 200); ++i) {
+            $scope.getRules(cardsExpensive[i]);
+        }
+        $scope.convertnum = $scope.convertnum + 200;
+    }
 
-	$scope.getRules = function(card) {
-		$http({
-			  method: 'GET',
-			  url: 'https://api.scryfall.com/cards/multiverse/' + card.multiverse_id
-			}).then(function successCallback(response) {
-				if (response.data.card_faces && response.data.card_faces.length) {
-					card.oracle_text = response.data.card_faces[0].oracle_text;
-					for (var i = 1; i < response.data.card_faces.length; ++i) {
-						card.oracle_text = card.oracle_text + response.data.card_faces[i].oracle_text;
-					}
-				} else {
-			    	card.oracle_text = response.data.oracle_text;
-				}
-			}, function errorCallback(response) {
-			    $scope.errors.push(response);
-		});
+    $scope.getRules = function(card) {
+        $http({
+              method: 'GET',
+              url: 'https://api.scryfall.com/cards/multiverse/' + card.multiverse_id
+            }).then(function successCallback(response) {
+                if (response.data.card_faces && response.data.card_faces.length) {
+                    card.oracle_text = response.data.card_faces[0].oracle_text;
+                    for (var i = 1; i < response.data.card_faces.length; ++i) {
+                        card.oracle_text = card.oracle_text + response.data.card_faces[i].oracle_text;
+                    }
+                } else {
+                    card.oracle_text = response.data.oracle_text;
+                }
+            }, function errorCallback(response) {
+                $scope.errors.push(response);
+        });
     }
 
     $scope.getCardsAutocomplete = function() {
@@ -124,9 +130,9 @@ app.controller('myCtrl', function($scope, $window, $http, $timeout) {
                     $scope.errors.push(response);
             });
         }
-	}
+    }
 
-	$scope.addCard = function() {
+    $scope.addCard = function() {
         $http({
             method: 'GET',
             url: 'https://api.scryfall.com/cards/named?exact=' + $scope.autoQuery
@@ -163,7 +169,7 @@ app.controller('myCtrl', function($scope, $window, $http, $timeout) {
         });
     }
 
-	$scope.addRandomCard = function(depth, tries) {
+    $scope.addRandomCard = function(depth, tries) {
         if (depth > 0 && tries < 10) {
             $http({
                 method: 'GET',
@@ -263,36 +269,44 @@ app.controller('myCtrl', function($scope, $window, $http, $timeout) {
         }
     }
 
-	$scope.resetPage = function() {
+    $scope.resetPage = function() {
         $scope.page = 0;
     };
 
-	$scope.reset = function() {
-		$scope.search = {};
-		$scope.resetPage();
+    $scope.reset = function() {
+        $scope.search = {};
+        $scope.resetPage();
     }
     
     $scope.clear = function() {
         $scope.cards = [];
     }
 
-	$scope.openScry = function(url) {
-		$window.open(url, '_blank');
-	}
+    $scope.openScry = function(url) {
+        $window.open(url, '_blank');
+    }
 
-	$scope.deleteCard = function(card) {
-		$scope.cards.splice($scope.findCardIndex(card), 1);
-	}
+    $scope.deleteCard = function(card) {
+        $scope.cards.splice($scope.findCardIndex(card), 1);
+    }
 
-	$scope.addToDeck = function(card) {
-		$scope.deck.push(card);
-	}
+    $scope.addToDeck = function(card) {
+        $scope.deck.push(card);
+    }
 
-	$scope.deleteFromDeck = function(index) {
-		$scope.deck.splice(index, 1);
+    $scope.deleteFromDeck = function(index) {
+        $scope.deck.splice(index, 1);
     }
     
     $scope.findCardIndex = function(card) {
         return $scope.cards.findIndex(x => x.name === card.name);
+    }
+
+    $scope.setSlideout = function(tab) {
+        if ($scope.slideoutTab == tab) {
+            $scope.slideoutTab = null;
+        } else {
+            $scope.slideoutTab = tab;
+        }
     }
 });

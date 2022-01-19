@@ -1,83 +1,231 @@
-.page-wrapper {
-	display: flex;
+:root {
+    --danger: #BC4749;
+    --danger-hvr: #A43D3E;
+
+    --primary0: #122B1D;
+    --primary1: #183A26;
+    --primary2: #214E34;
+    --primary3: #305943;
+    --primary4: #3F6452;
+    --primary5: #5E8A77;
+    --primary6: #7DAF9C;
+    --primary7: #94BDAE;
+    --primary8: #ABCBBF;
+    --primary9: #D9E7E1;
+    --secondary0: #240B36;
+    --secondary1: #361E41;
+    --secondary2: #47304B;
+    --secondary3: #5B415D;
+    --secondary4: #6F526E;
+    --secondary5: #977390;
+    --secondary6: #B296AD;
+    --secondary7: #CCB8C9;
+    --secondary8: #E0D1DF;
+    --secondary9: #F3EAF4;
 }
+
+html, body {
+    margin: 0;
+    height: 100%;
+}
+
+body {
+    background: var(--primary4);
+    color: white;
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+button {
+    display: inline-block;
+    border: 1px solid var(--secondary0);
+    padding: 9px 15px;
+    border-radius: 4px;
+    margin: 0;
+    text-decoration: none;
+    background: var(--secondary4);
+    color: #ffffff;
+    font-size: 1rem;
+    cursor: default;
+    text-align: center;
+    transition: background 150ms ease-in-out, transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+button:hover {
+    background: var(--secondary2);
+}
+
+button:focus {
+    outline: 1px solid #fff;
+    outline-offset: -2px;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    background: var(--secondary7);
+    color: var(--secondary9);
+}
+
+input, select {
+    width: 100%;
+    padding: 5px 10px;
+    margin-top: 2px;
+    box-sizing: border-box;
+    border: 1px solid var(--secondary0);
+    border-radius: 5px;
+}
+
+:focus:not(:focus-visible) {
+    outline: 0;
+    box-shadow: none;
+}
+
+.button-secondary {
+    background: var(--secondary1);
+}
+.button-secondary:hover {
+    background: var(--secondary0);
+}
+
+.page-wrapper {
+    display: flex;
+}
+
 .card-wrapper {
-	display: flex;
-	flex-wrap: wrap;
-	margin-right: 200px;
-	margin-bottom: 400px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 200px;
+    margin-bottom: 400px;
 }
 .card-container {
-	width: 200px;
-	margin: 5px;
-	position: relative;
+    width: 200px;
+    margin: 5px;
+    position: relative;
 }
 .delete-btn {
-	background: lightcoral;
+    background: var(--danger);
     padding: 10px 11px;
     border: 1px solid black;
-    border-top-right-radius: 9px;
-    border-bottom-left-radius: 9px;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
     position: absolute;
-    top: 24px;
-	right: 0;
-	display: none;
-	cursor: default;
+    top: 25px;
+    right: 0;
+    display: none;
+    cursor: default;
+    color: white;
 }
 .delete-btn:hover {
-	background: coral;
+    background: var(--danger-hvr);
 }
 .card-container:hover .delete-btn {
-	display: inline;
+    display: inline;
+}
+.slideout-btn {
+    padding: 5px;
+    border: 1px solid  var(--secondary0);
+    border-radius: 0px 0px 5px 5px;
+    margin-top: -1px;
+    cursor: default;
+    color: white;
+}
+.slideout-btn img {
+    height: 28px;
+    vertical-align: middle;
+}
+.slideout-btn i {
+    padding: 6px;
+}
+.slideout-btn-closed {
+    background: var(--secondary3);
+    border-top: 1px solid  var(--secondary0);
+}
+.slideout-btn-closed:hover {
+    background: var(--secondary2);
+}
+.slideout-btn-open {
+    background: var(--secondary4);
+    border-top: 1px solid  var(--secondary4);
+}
+.slideout-btn-open:hover {
+    background: var(--secondary4);
+}
+.slideout {
+    background: var(--secondary4);
+    color: white;
+    z-index: 100;
+}
+.slideout-closed {
+    max-height: 0;
+    transition: max-height 0.25s ease-out;
+}
+.slideout-open {
+    padding: 20px 10px 0px 10px;
+    max-height: 500px;
+    transition: max-height 0.25s ease-in;
+    border-bottom: 1px solid var(--secondary0);
 }
 .card-title {
-	text-overflow: ellipsis;
+    text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-	text-align: center;
-	cursor: pointer;
-	margin: 3px;
+    text-align: center;
+    cursor: pointer;
+    margin: 3px;
 }
 .card-image {
-	width: 200px;
-	height: 280px;
-    border-radius: 9px;
-	background-image: repeating-linear-gradient(-55deg, #DDD, #DDD 5px, #CCC 5px, #CCC 10px);
+    width: 200px;
+    height: 280px;
+    border-radius: 10px;
+    background-image: repeating-linear-gradient(-55deg, var(--primary9), var(--primary9) 5px, var(--primary8) 5px, var(--primary8) 10px);
 }
 .card-image-zoom {
-	width: 400px;
-	position: absolute;
-	z-index: 50;
+    width: 400px;
+    position: absolute;
+    z-index: 50;
 }
 .filters {
-	position: sticky;
-	top: 0;
-	padding: 10px;
-	background: white;
-	z-index: 100;
+    position: sticky;
+    top: 0;
+    padding: 0px 10px;
+    background: var(--primary1);
+    color: white;
+    z-index: 100;
+    border-bottom: 1px solid var(--primary0);
 }
 .filter-row {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-end;
+    padding-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
 }
 .filter {
-	padding: 10px;
+    padding: 0px 5px;
 }
 .input-long {
-	width: 500px;
+    width: 500px;
 }
 .deck-wrapper {
-	flex-basis: 300px;
+    flex-basis: 300px;
 }
 .deck-card-container {
-	width: 300px;
-	height: 40px;
+    width: 300px;
+    height: 40px;
 }
 .deck-card-image {
-	width: 300px;
-	position: absolute;
+    width: 300px;
+    position: absolute;
 }
 .deck-card-image:hover {
-	z-index: 50;
+    z-index: 50;
+}
+.danger {
+    background: var(--danger);
+}
+.danger:hover {
+    background: var(--danger-hvr);
 }
