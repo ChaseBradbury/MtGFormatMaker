@@ -1,17 +1,16 @@
 :root {
     --danger: #BC4749;
     --danger-hvr: #A43D3E;
-
-    --primary0: #122B1D;
-    --primary1: #183A26;
-    --primary2: #214E34;
-    --primary3: #305943;
-    --primary4: #3F6452;
-    --primary5: #5E8A77;
-    --primary6: #7DAF9C;
-    --primary7: #94BDAE;
-    --primary8: #ABCBBF;
-    --primary9: #D9E7E1;
+    --primary0: #0D1B1E;
+    --primary1: #0F2B2C;
+    --primary2: #113B3A;
+    --primary3: #145A55;
+    --primary4: #187A70;
+    --primary5: #1B998B;
+    --primary6: #44B3A5;
+    --primary7: #6DCCBE;
+    --primary8: #96E6D8;
+    --primary9: #BFFFF1;
     --secondary0: #240B36;
     --secondary1: #361E41;
     --secondary2: #47304B;
@@ -22,6 +21,26 @@
     --secondary7: #CCB8C9;
     --secondary8: #E0D1DF;
     --secondary9: #F3EAF4;
+    --tertiary0: #122B1D;
+    --tertiary1: #183A26;
+    --tertiary2: #214E34;
+    --tertiary3: #305943;
+    --tertiary4: #3F6452;
+    --tertiary5: #5E8A77;
+    --tertiary6: #7DAF9C;
+    --tertiary7: #94BDAE;
+    --tertiary8: #ABCBBF;
+    --tertiary9: #D9E7E1;
+    --neutral0: #202632;
+    --neutral1: #2F394B;
+    --neutral2: #3A4559;
+    --neutral3: #4D5769;
+    --neutral4: #636C7C;
+    --neutral5: #9096A2;
+    --neutral6: #A7ACB5;
+    --neutral7: #BDC1C8;
+    --neutral8: #D4D6DB;
+    --neutral9: #EAEBED;
 }
 
 html, body {
@@ -30,19 +49,34 @@ html, body {
 }
 
 body {
-    background: var(--primary4);
+    background: var(--primary1);
     color: white;
-    font-family: Tahoma, Arial, sans-serif;
+    font-family: 'Signika Negative', Tahoma, Arial, sans-serif;
+}
+
+h1 {
+    margin: 0;
+    margin-bottom: -5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 1.75rem;
+}
+
+h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    font-family: 'Signika Negative', sans-serif;
 }
 
 button {
     display: inline-block;
-    border: 1px solid var(--secondary0);
+    border: 1px solid var(--primary0);
     padding: 9px 15px;
     border-radius: 4px;
     margin: 0;
+    font-family: inherit;
     text-decoration: none;
-    background: var(--secondary4);
+    background: var(--primary4);
     color: #ffffff;
     font-size: 1rem;
     cursor: default;
@@ -53,7 +87,7 @@ button {
 }
 
 button:hover {
-    background: var(--secondary2);
+    background: var(--primary3);
 }
 
 button:focus {
@@ -66,8 +100,9 @@ button:active {
 }
 
 button:disabled {
-    background: var(--secondary7);
-    color: var(--secondary9);
+    background: var(--neutral8);
+    border: 1px solid var(--neutral6);
+    color: var(--neutral6);
 }
 
 input, select {
@@ -91,6 +126,12 @@ input, select {
     background: var(--secondary0);
 }
 
+.button-secondary:disabled {
+    background: var(--neutral8);
+    border: 1px solid var(--neutral6);
+    color: var(--neutral6);
+}
+
 .page-wrapper {
     display: flex;
 }
@@ -100,6 +141,7 @@ input, select {
     flex-wrap: wrap;
     margin-right: 200px;
     margin-bottom: 400px;
+    max-width: 1280px;
 }
 .card-container {
     width: 200px;
@@ -129,7 +171,6 @@ input, select {
     padding: 5px;
     border: 1px solid  var(--secondary0);
     border-radius: 0px 0px 5px 5px;
-    margin-top: -1px;
     cursor: default;
     color: white;
 }
@@ -160,13 +201,13 @@ input, select {
     z-index: 100;
 }
 .slideout-closed {
-    max-height: 0;
-    transition: max-height 0.25s ease-out;
+    height: 0;
+    transition: height 0.25s ease-out;
 }
 .slideout-open {
     padding: 20px 10px 0px 10px;
-    max-height: 500px;
-    transition: max-height 0.25s ease-in;
+    height: 120px;
+    transition: height 0.25s ease-in;
     border-bottom: 1px solid var(--secondary0);
 }
 .card-title {
@@ -181,7 +222,7 @@ input, select {
     width: 200px;
     height: 280px;
     border-radius: 10px;
-    background-image: repeating-linear-gradient(-55deg, var(--primary9), var(--primary9) 5px, var(--primary8) 5px, var(--primary8) 10px);
+    background-image: repeating-linear-gradient(-55deg, var(--neutral4), var(--neutral4) 5px, var(--neutral3) 5px, var(--neutral3) 10px)
 }
 .card-image-zoom {
     width: 400px;
@@ -192,19 +233,20 @@ input, select {
     position: sticky;
     top: 0;
     padding: 0px 10px;
-    background: var(--primary1);
+    background: var(--primary2);
     color: white;
     z-index: 100;
     border-bottom: 1px solid var(--primary0);
 }
-.filter-row {
+.row {
     padding-bottom: 20px;
     display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
 }
-.filter {
+.form-item {
     padding: 0px 5px;
+    margin-top: -1px;
 }
 .input-long {
     width: 500px;
@@ -225,7 +267,13 @@ input, select {
 }
 .danger {
     background: var(--danger);
+    border-radius: 0px 0px 5px 5px;
 }
 .danger:hover {
     background: var(--danger-hvr);
+}
+.danger:disabled {
+    background: var(--neutral8);
+    border: 1px solid var(--neutral6);
+    color: var(--neutral6);
 }

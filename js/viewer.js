@@ -2,7 +2,7 @@ var app = angular.module('myApp', []);
 app.controller('myCtrl', function($scope, $window, $http, $timeout) {
     $scope.page = 0;
     $scope.search = {};
-    $scope.itemLimit = 24;
+    $scope.itemLimit = 60;
     $scope.includeMid = false;
     $scope.includeExpensive = false;
     $scope.colors = [
@@ -29,7 +29,7 @@ app.controller('myCtrl', function($scope, $window, $http, $timeout) {
         { value: null, display: 'All' },
         { value: 'C', display: 'Common' },
         { value: 'U', display: 'Uncommon' },
-        { value: 'R', display: 'Rare' },
+        { value: 'R', display: 'Rare' }
     ];
     
     $scope.sortOptions = [
@@ -51,7 +51,7 @@ app.controller('myCtrl', function($scope, $window, $http, $timeout) {
     $scope.scryQuery = {
         query: 'f:vintage usd<2',
         numCards: 1,
-        isRandom: true
+        isRandom: null
     }
     $scope.sortProp = 'colors';
     $scope.debounceTime = 350;
@@ -61,9 +61,37 @@ app.controller('myCtrl', function($scope, $window, $http, $timeout) {
     $scope.scryTabId = 'scry';
     $scope.saveTabId = 'save';
     $scope.slideoutTab = $scope.uploadTabId;
+    $scope.jsonCards = [];
+
+    $scope.importOptions = [
+        { value: '', display: 'All Cards from File' },
+        { value: '-', display: 'Random Cards of Any Color' },
+        { value: '00-C', display: 'Random Colorless' },
+        { value: '01-W', display: 'Random White' },
+        { value: '02-U', display: 'Random Blue' },
+        { value: '03-B', display: 'Random Black' },
+        { value: '04-R', display: 'Random Red' },
+        { value: '05-G', display: 'Random Green' },
+        { value: '06-WU', display: 'Random Azorius (WU)' },
+        { value: '07-UB', display: 'Random Dimir (UB)' },
+        { value: '08-BR', display: 'Random Rakdos (BR)' },
+        { value: '09-RG', display: 'Random Gruul (RG)' },
+        { value: '10-GW', display: 'Random Selesnya (GW)' },
+        { value: '11-WB', display: 'Random Orzhov (WB)' },
+        { value: '12-UR', display: 'Random Izzet (UR)' },
+        { value: '13-BG', display: 'Random Golgari (BG)' },
+        { value: '14-RW', display: 'Random Boros (RW)' },
+        { value: '15-GU', display: 'Random Simic (GU)' },
+        { value: '16-M', display: 'Random 3+ Colors' }
+    ];
+    $scope.importType = '';
+    $scope.addNumber = 1;
+    $scope.scryImportOptions = [
+        { value: null, display: 'By Page' },
+        { value: true, display: 'Random Cards' }
+    ];
 
 
-    
     $scope.uploadFormatJSON = function(fileEl) {
         var files = fileEl.files;
         var file = files[0];
@@ -72,18 +100,51 @@ app.controller('myCtrl', function($scope, $window, $http, $timeout) {
         reader.onloadend = function(evt) {
             if (evt.target.readyState === FileReader.DONE) {
                 $scope.$apply(function () {
-                    var jsonCards = JSON.parse(evt.target.result);
-                    jsonCards.forEach(card => {
-                        card.colors = $scope.convertColor(card.colors);
-                        if ($scope.findCardIndex(card) === -1) {
-                            $scope.cards.push(card);
-                        }
-                    });
+                    $scope.jsonCards = JSON.parse(evt.target.result);
+                    
                 });
             }
         };
         
         reader.readAsText(file);
+    }
+
+    $scope.addJSON = function() {
+        if ($scope.importType == '') {
+            $scope.addFullJSON();
+        } else {
+            $scope.addRandomJSON($scope.addNumber);
+        }
+    }
+
+    $scope.addFullJSON = function() {
+        $scope.jsonCards.forEach(card => {
+            card.colors = $scope.convertColor(card.colors);
+            if ($scope.findCardIndex(card) === -1) {
+                $scope.cards.push(card);
+            }
+        });
+    }
+
+    $scope.addRandomJSON = function(number) {
+        var colorCards = $scope.jsonCards.filter(card => card.colors.includes($scope.importType));
+        var rand;
+        var randCard;
+        var count = 0;
+        while (count < number) {
+            rand = Math.floor(Math.random() * colorCards.length);
+            randCard = colorCards[rand];
+            if (randCard == null) {
+                break;
+            }
+            if ($scope.findCardIndex(randCard) === -1) {
+                $scope.cards.push(randCard);
+                ++count;
+            } else {
+                
+            }
+            colorCards.splice(rand, 1);
+        }
     }
 
     $scope.downloadFormatJSON = function() {
