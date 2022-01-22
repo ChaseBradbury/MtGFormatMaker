@@ -4,14 +4,14 @@ Make your own formats!
 First you need to add cards.
 
 There are 4 tabs at the top, which all add cards (or save):
-  1. Upload a JSON that contains a card list, with 2 options
+  - Upload a JSON that contains a card list (created with this program), with 2 options
     - Add the entire file
     - Add a number random cards from the file 
-  2. Add an individual card
-  3. Add cards using a scryfall query, with 2 options
+  - Add an individual card
+  - Add cards using a scryfall query, with 2 options
     - Add a full page of results (each page is 175 cards)
     - Add a number random cards that match the criteria
-  4. Save the format as a JSON (you can then re-add that JSON next time)
+  - Save the format as a JSON (you can then re-add that JSON next time)
 
 You can close the top purple panel when you’re done adding cards, by clicking the currently open tab.
 
