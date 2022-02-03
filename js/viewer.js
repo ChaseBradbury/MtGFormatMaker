@@ -38,6 +38,10 @@ app.controller('myCtrl', function($scope, $window, $http, $timeout) {
         { value: 'name', display: 'Name' },
         { value: null, display: 'File Order' }
     ];
+    $scope.sortOrderOptions = [
+        { value: null, display: 'Ascending' },
+        { value: true, display: 'Descending' }
+    ];
     $scope.importOptions = [
         { value: '', display: 'All Cards from File' },
         { value: '-', display: 'Random Cards of Any Color' },

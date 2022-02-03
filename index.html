@@ -167,6 +167,11 @@
                     <input type="number" placeholder="Search mana value" id="cmc" ng-model="search.cmc" ng-change="resetPage()" ng-model-options="{ debounce: debounceTime }">
                 </div>
                 <div class="form-item">
+                    <label for="manacost">Mana Cost</label>
+                    <br>
+                    <input id="manacost" placeholder="Search mana cost" ng-model="search.mana_cost" ng-change="resetPage()" ng-model-options="{ debounce: debounceTime }">
+                </div>
+                <div class="form-item">
                     <label for="artist">Artist</label>
                     <br>
                     <input id="artist" placeholder="Search artist" ng-model="search.artist" ng-change="resetPage()" ng-model-options="{ debounce: debounceTime }">
@@ -193,6 +198,13 @@
                     </select>
                 </div>
                 <div class="form-item">
+                    <label for="order">Order</label>
+                    <br>
+                    <select id="order" ng-model="sortOrder">
+                        <option ng-repeat="x in sortOrderOptions" value="{{x.value}}">{{x.display}}</option>
+                    </select>
+                </div>
+                <div class="form-item">
                     <button ng-click="reset()">
                         Reset Filters
                     </button>
@@ -216,7 +228,7 @@
         <div class="page-wrapper">
             <!-- Card List -->
             <div class="card-wrapper">
-                <div ng-repeat="card in filtered = (cards | filter:search:strict) | orderBy:[sortProp,'colors','cmc','name'] | limitTo:itemLimit:page*itemLimit as filtered track by card.name" class="card-container">
+                <div ng-repeat="card in filtered = (cards | filter:search:strict) | orderBy:[sortProp,'colors','cmc','name']:sortOrder | limitTo:itemLimit:page*itemLimit as filtered track by card.name" class="card-container">
                     <div title="{{card.name}}" class="card-title" ng-click="openScry(card.scryfall_uri)" title="Go to Scryfall">
                         {{card.name}}
                         <i class="fa fa-external-link" aria-hidden="true" title="View on Scryfall"></i>
